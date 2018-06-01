@@ -1,6 +1,8 @@
 package net.medrag.hiberapp.controller;
 
+import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
+//import net.medrag.hiberapp.model.service.SecurityService;
 import net.medrag.hiberapp.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     private UserService userService;
+
+//    private SecurityService securityService;
+//
+//    @Autowired
+//    @Qualifier("securityService")
+//    public void setSecurityService(SecurityService securityService) {
+//        this.securityService = securityService;
+//    }
 
     @Autowired
     @Qualifier("userService")
@@ -62,7 +72,7 @@ public class UserController {
         newUser.setEmail(email);
         newUser.setUsername(username);
         newUser.setPassword(password);
-        newUser.setAdmin(false);
+        newUser.setRole(Role.ROLE_USER);
         userService.addUser(newUser);
         newUser = userService.getUserByNameAndPass(username, password);
         System.out.println("You signed in as a:");

@@ -20,8 +20,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "is_admin")
-    private Boolean isAdmin;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition="enum('role_user','role_admin')")
+    private Role role;
 
     public Long getId() {
         return id;
@@ -55,12 +56,12 @@ public class User {
         this.email = email;
     }
 
-    public Boolean getAdmin() {
-        return isAdmin;
+    public Role getRole() {
+        return role;
     }
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
@@ -70,7 +71,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", role=" + role +
                 '}';
     }
 }

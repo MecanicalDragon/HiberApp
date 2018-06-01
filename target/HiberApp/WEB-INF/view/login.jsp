@@ -17,7 +17,7 @@
 
              <form class="form-signin" method="post" action="/loginDone">
                  <div class="row justify-content-sm-center">
-                     <input name="username" placeholder="Enter your e-mail"
+                     <input name="username" placeholder="Enter your login"
                             class="form-control col-8 col-sm-8 col-md-6 col-lg-4 col-xl-2">
                  </div>
                  <div class="row justify-content-center">

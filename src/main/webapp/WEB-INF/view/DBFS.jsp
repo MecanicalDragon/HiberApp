@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="text text-center">
-           is fraternity of children in the end of'90 - beginning of'00, who just like to draw comics about self' adventures. The name has come from adults, who told about their creation scornfully.
+           is fraternity of children in the end of'90 - beginning of'00, who just like to draw comics about self' adventures. The name has come from adults, who had told about their creation scornfully.
        </div>
          <div  class="text-primary text-right">
              <a href="/login">Back to the authorisation</a>

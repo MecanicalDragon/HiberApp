@@ -1,6 +1,7 @@
 package net.medrag.hiberapp.model.service;
 
 import net.medrag.hiberapp.model.dao.UserDao;
+import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,11 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public User getUserByNameAndPass(String username, String password) {
         return this.userDao.getUserByNameAndPass(username, password);
+    }
+
+    @Override
+    public void setRole(String username, Role role) {
+        this.userDao.setRole(username, role);
     }
 
     @Override

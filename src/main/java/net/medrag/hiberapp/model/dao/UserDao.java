@@ -1,5 +1,6 @@
 package net.medrag.hiberapp.model.dao;
 
+import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public interface UserDao {
     User getUserByEmail(String email);
     User getUserByName(String username);
     User getUserByNameAndPass(String username, String password);
+    void setRole(String username, Role role);
     List<User> getUserList();
 
 }

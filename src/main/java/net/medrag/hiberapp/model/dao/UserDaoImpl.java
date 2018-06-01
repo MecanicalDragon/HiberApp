@@ -1,5 +1,6 @@
 package net.medrag.hiberapp.model.dao;
 
+import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -53,6 +54,17 @@ public class UserDaoImpl implements UserDao {
         query.setParameter("username", username);
         query.setParameter("password", password);
         return (User)query.uniqueResult();
+    }
+
+    @Override
+    public void setRole(String username, Role role) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from User where username=:username");
+        query.setParameter("username", username);
+        User user = (User)query.uniqueResult();
+        user.setRole(role);
+        session.update(user);
+        System.out.printf("User %s now has rights of %s", username, role);
     }
 
     @Override
