@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public void setRole(String username, Role role) {
         this.userDao.setRole(username, role);
     }
