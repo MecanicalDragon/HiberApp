@@ -25,7 +25,6 @@
     </bean>
 
     <!--example of request mapping for servlet below-->
-    <!--<bean name="signIn" class="controller.HelloController" />-->
     <!--<bean name="register" class="controller.RegisterController" />-->
     <!--<bean name="dbfs" class="controller.DBFSController" />-->
 

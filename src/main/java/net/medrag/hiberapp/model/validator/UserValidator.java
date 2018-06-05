@@ -28,24 +28,24 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         User user = (User) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required.Field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "required.field");
         if (user.getUsername().length() < 4 || user.getUsername().length() > 16) {
-            errors.rejectValue("username", "Username.Size");
+            errors.rejectValue("username", "username.size");
         }
 
         if (userService.getUserByName(user.getUsername()) != null) {
-            errors.rejectValue("username", "User.Exists");
+            errors.rejectValue("username", "user.exists");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "Required.Field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required.Field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
 
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-            errors.rejectValue("password", "Short.Password");
+            errors.rejectValue("password", "short.password");
         }
 
         if (!user.getPassword().equals(user.getConfirmPassword())) {
-            errors.rejectValue("confirmPassword", "Passwords.Equal");
+            errors.rejectValue("confirmPassword", "passwords.equal");
         }
 
     }

@@ -1,27 +1,31 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
-    <!--Another way to indicate db properties (I don't know the right way to make it work)-->
-    <!--<context:property-placeholder location="classpath:database/database.properties"/>-->
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <import resource="config-security.xml"/>
 
-    <context:component-scan base-package="net.medrag.hiberapp.model"/>
+    <!--Database configuration-->
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:database/database.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <context:property-placeholder location="classpath:database/database.properties"/>
 
-    <!-- Database Information -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/hiberapp"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
+    <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
     </bean>
 
     <!-- Hibernate 5 SessionFactory Bean definition -->
@@ -40,18 +44,25 @@
         </property>
     </bean>
 
-    <!--Beans-->
-    <tx:annotation-driven/>
+    <!--Other Beans-->
+    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <constructor-arg name="strength" value="12"/>
+    </bean>
 
-    <!--<mvc:annotation-driven/>-->
-    <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
-
-    <bean id="userDao" class="net.medrag.hiberapp.model.dao.UserDaoImpl">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
     </bean>
 
-    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
-        <constructor-arg name="strength" value="12"/>
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames" value="classpath:validation"/>
+    </bean>
+
+    <!--My App Beans-->
+    <context:component-scan base-package="net.medrag.hiberapp.model"/>
+    <tx:annotation-driven/>
+
+    <bean id="userDao" class="net.medrag.hiberapp.model.dao.UserDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
     </bean>
 
     <bean id="userService" class="net.medrag.hiberapp.model.service.UserServiceImpl">
@@ -63,23 +74,16 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
-    </bean>
-
     <bean id="securityService" class="net.medrag.hiberapp.model.service.SecurityServiceImpl">
         <property name="userDetailsService" ref="userDetailsService"/>
         <property name="authenticationManager" ref="authenticationManager"/>
-    </bean>
-
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames" value="classpath:validation"/>
     </bean>
 
     <bean id="userValidator" class="net.medrag.hiberapp.model.validator.UserValidator">
         <property name="userService" ref="userService"/>
     </bean>
 
+    <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
     <!--<mvc:default-servlet-handler/>-->
     <!--<mvc:annotation-driven/>-->
 
