@@ -18,6 +18,9 @@ public class FailController {
     static {
         messages = new HashMap<>();
         messages.put("auth", "You have input wrong login or password. Try again.");
+        messages.put("neps", "Passwords are not equal. Try again.");
+        messages.put("usex", "User with this login already exists. Choose another login.");
+        messages.put("emex", "There already exists an account, registered to this email. We can't let you create another one, sorry :)");
     }
 
     @GetMapping("{act}")

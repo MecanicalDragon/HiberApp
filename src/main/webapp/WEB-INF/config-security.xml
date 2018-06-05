@@ -16,11 +16,11 @@
         <form-login login-page="/login"
                     login-processing-url="/loginDone"
                     default-target-url="/success/auth"
-                    authentication-failure-url="/fail/auth"
+                    authentication-failure-url="/login?error"
                     username-parameter="username"
                     password-parameter="password"/>
 
-        <logout logout-success-url="/login"/>
+        <logout logout-success-url="/success/logout"/>
     </http>
 
     <authentication-manager alias="authenticationManager">

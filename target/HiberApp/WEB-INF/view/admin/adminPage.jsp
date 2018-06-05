@@ -18,14 +18,14 @@
              <a href="login">Back to the authorisation</a>
          </div>
          <div class="row justify-content-start">
-             <a href="adm1" class="btn btn-info btn-sm" type="button">1 admin page</a>
+             <a href="adm1" class="btn btn-info btn-sm col-2" type="button">1 admin page</a>
 
-             <a href="adm2" class="btn btn-info btn-sm" type="button">2 admin page</a>
+             <a href="adm2" class="btn btn-info btn-sm col-2" type="button">2 admin page</a>
          </div>
          <div class="row justify-content-start">
-             <a href="usr1" class="btn btn-warning btn-sm" type="button">1 users page</a>
+             <a href="usr1" class="btn btn-warning btn-sm col-2" type="button">1 users page</a>
 
-             <a href="usr2" class="btn btn-warning btn-sm" type="button">2 users page</a>
+             <a href="usr2" class="btn btn-warning btn-sm col-2" type="button">2 users page</a>
          </div>
      </div>
      <div class="footer">

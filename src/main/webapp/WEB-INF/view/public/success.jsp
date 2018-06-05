@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,9 +16,11 @@
        <div class="text text-center text-success">
            <h2>${msg} has come successfully!</h2>
        </div>
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
          <div class="text text-center text-primary">
              But you hardly find something interesting here for a while :)
          </div>
+        </c:if>
          <div  class="text-primary text-right">
              <a href="../login">Back to the authorisation</a>
          </div>

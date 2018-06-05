@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +18,8 @@ public class SuccessController {
     static {
         messages = new HashMap<>();
         messages.put("auth", "Authorisation");
+        messages.put("logout", "Logout");
+        messages.put("reg", "Congratulations! Registration");
     }
 
     @GetMapping("{act}")
@@ -27,11 +28,3 @@ public class SuccessController {
         return "public/success";
     }
 }
-
-//    @GetMapping("{act}")
-//    public ModelAndView success(@PathVariable String act){
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("msg", messages.get(act));
-//        mav.setViewName("public/success");
-//        return mav;
-//    }

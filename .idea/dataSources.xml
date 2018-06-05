@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="hiberapp@localhost" uuid="71796c07-8efd-4e56-adf0-a046c0f59acb">
+    <data-source source="LOCAL" name="hiberapp@localhost" uuid="cde4f088-2a19-4061-8ed0-704e4ae8d4dc">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>

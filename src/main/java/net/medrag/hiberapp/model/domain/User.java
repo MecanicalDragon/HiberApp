@@ -8,7 +8,7 @@ public class User {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -17,12 +17,17 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String confirmPassword;
+
     @Column(name = "email")
     private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition="enum('role_user','role_admin')")
     private Role role;
+
+    public User(){}
 
     public Long getId() {
         return id;
@@ -46,6 +51,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {

@@ -3,6 +3,7 @@ package net.medrag.hiberapp.model.service;
 import net.medrag.hiberapp.model.dao.UserDao;
 import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +14,20 @@ public class UserServiceImpl implements UserService{
 
     private UserDao userDao;
 
+    private BCryptPasswordEncoder encoder;
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    public void setEncoder(BCryptPasswordEncoder encoder) {
+        this.encoder = encoder;
     }
 
     @Override
     @Transactional
     public void addUser(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         this.userDao.addUser(user);
 
     }
