@@ -21,6 +21,7 @@ public class FailController {
         messages.put("neps", "Passwords are not equal. Try again.");
         messages.put("usex", "User with this login already exists. Choose another login.");
         messages.put("emex", "There already exists an account, registered to this email. We can't let you create another one, sorry :)");
+        messages.put("mail", "Something wrong with our email-service. Please, contact us on medragwebapp@gmail.com of just try to register a bit later");
     }
 
     @GetMapping("{act}")

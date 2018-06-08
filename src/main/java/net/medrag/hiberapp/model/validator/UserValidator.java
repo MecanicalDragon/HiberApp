@@ -1,6 +1,6 @@
 package net.medrag.hiberapp.model.validator;
 
-import net.medrag.hiberapp.model.domain.User;
+import net.medrag.hiberapp.model.domain.RawUser;
 import net.medrag.hiberapp.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,38 +8,40 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.Locale;
 
 @Component
 public class UserValidator implements Validator {
 
     private UserService userService;
 
+    @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return User.class.equals(aClass);
+        return RawUser.class.equals(aClass);
     }
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = (User) o;
+        RawUser user = (RawUser) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "required.field");
         if (user.getUsername().length() < 4 || user.getUsername().length() > 16) {
             errors.rejectValue("username", "username.size");
         }
-
         if (userService.getUserByName(user.getUsername()) != null) {
             errors.rejectValue("username", "user.exists");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
+        if (userService.getUserByEmail(user.getEmail()) != null) {
+            errors.rejectValue("email", "email.exists");
+        }
 
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
             errors.rejectValue("password", "short.password");
         }

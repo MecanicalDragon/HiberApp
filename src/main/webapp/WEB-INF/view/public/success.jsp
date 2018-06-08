@@ -16,6 +16,11 @@
        <div class="text text-center text-success">
            <h2>${msg} has come successfully!</h2>
        </div>
+         <c:if test="${msg.equals('Congratulations! Registration')}">
+         <div class="text text-center text-primary">
+             We sent email on your email-address. Please, confirm it by following the link within.
+         </div>
+             </c:if>
         <c:if test="${pageContext.request.userPrincipal.name != null}">
          <div class="text text-center text-primary">
              But you hardly find something interesting here for a while :)

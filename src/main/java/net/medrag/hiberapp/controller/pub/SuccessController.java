@@ -20,6 +20,7 @@ public class SuccessController {
         messages.put("auth", "Authorisation");
         messages.put("logout", "Logout");
         messages.put("reg", "Congratulations! Registration");
+        messages.put("conf", "Congratulations again! Confirmation of your email");
     }
 
     @GetMapping("{act}")

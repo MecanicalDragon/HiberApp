@@ -17,9 +17,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
     @Column(name = "email")
     private String email;
 
@@ -31,10 +28,6 @@ public class User {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUsername() {
@@ -51,14 +44,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getEmail() {
@@ -82,7 +67,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
