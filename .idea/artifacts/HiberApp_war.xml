@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="HiberApp:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="HiberApp.war">
-      <element id="artifact" artifact-name="HiberApp:war exploded" />
-    </root>
-  </artifact>
-</component>
