@@ -2,7 +2,7 @@ package net.medrag.hiberapp.model.dao;
 
 import net.medrag.hiberapp.model.domain.Role;
 import net.medrag.hiberapp.model.domain.User;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

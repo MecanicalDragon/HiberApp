@@ -1,7 +1,7 @@
 package net.medrag.hiberapp.model.dao;
 
 import net.medrag.hiberapp.model.domain.RawUser;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,6 @@ public class RawUserDaoImpl implements RawUserDao {
             random2 = new Random().nextLong();
             random3 = new Random().nextLong();
             confirmCode = "unqcc" + random1.toString() + random2.toString() + random3.toString();
-            System.out.println(confirmCode);
         } while (getUserByCode(confirmCode) != null );
 
         Session session = this.sessionFactory.getCurrentSession();
@@ -56,7 +55,6 @@ public class RawUserDaoImpl implements RawUserDao {
     @SuppressWarnings("unchecked")
     public List<RawUser> getRawUsersList() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<RawUser> list = session.createQuery("from RawUser").list();
-        return list;
+        return (List<RawUser>) session.createQuery("from RawUser").list();
     }
 }

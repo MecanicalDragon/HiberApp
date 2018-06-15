@@ -74,6 +74,7 @@ public class RegistrationController {
         try {
             mailService.sendConfirmEmail(user.getEmail(), confirmCode);
         } catch (MessagingException e) {
+            rawUserService.removeUser(user);
             return "redirect:../fail/mail";
         }
 
