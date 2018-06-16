@@ -63,7 +63,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registrationDone(@ModelAttribute("user") RawUser user, BindingResult bindingResult) {
+    public String registrationDone(@ModelAttribute("user") RawUser user, BindingResult bindingResult, Model model) {
 
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -78,6 +78,7 @@ public class RegistrationController {
             return "redirect:../fail/mail";
         }
 
+        model.addAttribute("email", user.getEmail());
         return "redirect:../success/reg";
     }
 
@@ -92,6 +93,11 @@ public class RegistrationController {
         user.setRole(Role.ROLE_USER);
         userService.addUser(user);
         rawUserService.removeUser(rawUser);
+        try {
+            mailService.sendUsersDataEmail(rawUser);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         securityService.autoLogin(rawUser.getUsername(), rawUser.getPassword());
         return "redirect:../../success/conf";
     }

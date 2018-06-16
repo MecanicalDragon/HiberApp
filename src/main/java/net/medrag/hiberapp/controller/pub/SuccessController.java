@@ -3,6 +3,7 @@ package net.medrag.hiberapp.controller.pub;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,8 +25,12 @@ public class SuccessController {
     }
 
     @GetMapping("{act}")
-    public String success(@PathVariable String act, Model model){
+    public String success(@PathVariable String act, Model model, @ModelAttribute("email") String email){
         model.addAttribute("msg", messages.get(act));
+        if (email!=null) {
+            String mail = String.format("http://%s", email);
+            model.addAttribute("mail", mail);
+        }
         return "public/success";
     }
 }
