@@ -18,7 +18,9 @@
        <div class="text-center">
          <h3>Registration process</h3>
          <p>First, enter your able login into this form:</p>
+
          <form:form class="form-Registration" method="post" modelAttribute="user" action="register">
+
              <spring:bind path="username">
                  <div class="row justify-content-center">
                  <form:input name="username" placeholder="Form for login" path="username" autofocus="true"
@@ -30,6 +32,7 @@
                      </div>
                  </div>
              </spring:bind>
+
              <spring:bind path="email">
                  <div class="row justify-content-center">
                 <form:input type="email" name="email" placeholder="Specify your e-mail here" path="email"
@@ -67,6 +70,8 @@
              <br>
              <button class="btn btn-success">Register</button>
          </form:form>
+
+
            <br>
            <div  class="text-primary text-right">
              <a href="login">Back to the authorisation</a>
