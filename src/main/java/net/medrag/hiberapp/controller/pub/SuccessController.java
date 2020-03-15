@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("success")
+@RequestMapping("/success")
 public class SuccessController {
 
-    private static Map<String, String>messages;
+    private static Map<String, String> messages;
 
     static {
         messages = new HashMap<>();

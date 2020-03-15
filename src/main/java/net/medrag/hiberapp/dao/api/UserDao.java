@@ -1,7 +1,7 @@
-package net.medrag.hiberapp.model.dao;
+package net.medrag.hiberapp.dao.api;
 
-import net.medrag.hiberapp.model.domain.Role;
-import net.medrag.hiberapp.model.domain.User;
+import net.medrag.hiberapp.model.Role;
+import net.medrag.hiberapp.model.User;
 
 import java.util.List;
 

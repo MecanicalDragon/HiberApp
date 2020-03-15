@@ -1,5 +1,6 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service;
 
+import net.medrag.hiberapp.service.api.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-@Service
 public class SecurityServiceImpl implements SecurityService {
 
     private AuthenticationManager authenticationManager;

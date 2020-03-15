@@ -14,18 +14,13 @@
     <!--standard context file for dispatcher servlet-->
 
     <mvc:annotation-driven/>
+    <!--package for controller scanning-->
     <context:component-scan base-package="net.medrag.hiberapp.controller"/>
 
-    <!--context above shows package for scanning controllers-->
-    <!--context below indicates location of pages-->
-
+    <!--location of pages-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/view/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
-
-    <!--example of request mapping for servlet below-->
-    <!--<bean name="register" class="controller.RegisterController" />-->
-    <!--<bean name="dbfs" class="controller.DBFSController" />-->
 
 </beans>

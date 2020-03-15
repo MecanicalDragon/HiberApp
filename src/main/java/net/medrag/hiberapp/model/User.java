@@ -1,10 +1,11 @@
-package net.medrag.hiberapp.model.domain;
+package net.medrag.hiberapp.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "raw_users")
-public class RawUser {
+@Table(name = "users")
+public class User {
 
     @Id
     @Column(name = "id")
@@ -17,19 +18,19 @@ public class RawUser {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
     @Column(name = "email")
     private String email;
 
-    @Column(name = "confirm_code")
-    private String confirmCode;
-
-    public RawUser(){}
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -48,14 +49,6 @@ public class RawUser {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -64,22 +57,38 @@ public class RawUser {
         this.email = email;
     }
 
-    public String getConfirmCode() {
-        return confirmCode;
+    public Role getRole() {
+        return role;
     }
 
-    public void setConfirmCode(String confirmCode) {
-        this.confirmCode = confirmCode;
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, email, role);
     }
 
     @Override
     public String toString() {
-        return "RawUser{" +
+        return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
                 ", email='" + email + '\'' +
-                ", confirmCode='" + confirmCode + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

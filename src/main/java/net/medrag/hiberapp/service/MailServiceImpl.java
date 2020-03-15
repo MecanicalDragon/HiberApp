@@ -1,9 +1,9 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service;
 
-import net.medrag.hiberapp.model.domain.RawUser;
+import net.medrag.hiberapp.model.RawUser;
+import net.medrag.hiberapp.service.api.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,10 +16,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-@Service
-public class MailServiceImpl implements MailService{
+public class MailServiceImpl implements MailService {
 
     private JavaMailSender mailSender;
+
+    private Boolean useEmail;
+
+    public void setUseEmail(Boolean useEmail) {
+        this.useEmail = useEmail;
+    }
 
     @Autowired
     public void setMailSender(JavaMailSender mailSender) {
@@ -31,8 +36,8 @@ public class MailServiceImpl implements MailService{
         MimeMessage message = mailSender.createMimeMessage();
         Properties properties = new Properties();
         try {
-        URL url = getClass().getResource("/server.properties");
-        Path path = Paths.get(url.toURI());
+            URL url = getClass().getResource("/server.properties");
+            Path path = Paths.get(url.toURI());
             properties.load(new FileInputStream(path.toFile()));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
@@ -44,13 +49,17 @@ public class MailServiceImpl implements MailService{
                 properties.get("server.address"),
                 properties.get("server.http.port"),
                 confirmCode);
-        message.setText("To confirm your registration, please, follow the next link: \n"+link +
-        "\n(Or triple click on it, copy and paste in your browser's address form, if your mail provider hasn't recognized it)");
-        mailSender.send(message);
+        String text = String.format("To confirm your registration, please, follow the next link: \n %s" +
+                "\n(Or triple click on it, copy and paste in your browser's address form," +
+                " if your mail provider hasn't recognized it).", link);
+        message.setText(text);
+        if (useEmail)
+            mailSender.send(message);
+        else System.out.println(text);
     }
 
     @Override
-    public void sendUsersDataEmail(RawUser user) throws MessagingException{
+    public void sendUsersDataEmail(RawUser user) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         message.addRecipients(Message.RecipientType.TO, user.getEmail());
         message.setSubject("Successful registration in My Web App");
@@ -60,6 +69,8 @@ public class MailServiceImpl implements MailService{
                 "Your password: %s \n" +
                 "You have no need to answer this email.", user.getUsername(), user.getEmail(), user.getPassword());
         message.setText(text);
-        mailSender.send(message);
+        if (useEmail)
+            mailSender.send(message);
+        else System.out.println(text);
     }
 }

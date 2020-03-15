@@ -1,14 +1,14 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service;
 
-import net.medrag.hiberapp.model.dao.RawUserDao;
-import net.medrag.hiberapp.model.domain.RawUser;
+import net.medrag.hiberapp.dao.api.RawUserDao;
+import net.medrag.hiberapp.model.RawUser;
+import net.medrag.hiberapp.service.api.RawUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 public class RawUserServiceImpl implements RawUserService {
 
     private RawUserDao rawUserDao;
@@ -25,7 +25,6 @@ public class RawUserServiceImpl implements RawUserService {
     }
 
     @Override
-    @Transactional
     public RawUser getUserByCode(String code) {
         return rawUserDao.getUserByCode(code);
     }
@@ -37,7 +36,6 @@ public class RawUserServiceImpl implements RawUserService {
     }
 
     @Override
-    @Transactional
     public List<RawUser> getRawUsersList() {
         return rawUserDao.getRawUsersList();
     }

@@ -1,16 +1,15 @@
-package net.medrag.hiberapp.model.dao;
+package net.medrag.hiberapp.dao;
 
-import net.medrag.hiberapp.model.domain.RawUser;
-import org.hibernate.query.Query;
+import net.medrag.hiberapp.dao.api.RawUserDao;
+import net.medrag.hiberapp.model.RawUser;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Random;
 
-@Repository
 public class RawUserDaoImpl implements RawUserDao {
 
     private SessionFactory sessionFactory;
@@ -29,7 +28,7 @@ public class RawUserDaoImpl implements RawUserDao {
             random2 = new Random().nextLong();
             random3 = new Random().nextLong();
             confirmCode = "unqcc" + random1.toString() + random2.toString() + random3.toString();
-        } while (getUserByCode(confirmCode) != null );
+        } while (getUserByCode(confirmCode) != null);
 
         Session session = this.sessionFactory.getCurrentSession();
         user.setConfirmCode(confirmCode);
@@ -39,10 +38,11 @@ public class RawUserDaoImpl implements RawUserDao {
 
     @Override
     public RawUser getUserByCode(String confirm_code) {
-        Session session = this.sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from RawUser where confirm_code=:confirm_code");
-        query.setParameter("confirm_code", confirm_code);
-        return (RawUser)query.uniqueResult();
+        try (Session session = this.sessionFactory.openSession()) {
+            Query query = session.createQuery("from RawUser where confirm_code=:confirm_code");
+            query.setParameter("confirm_code", confirm_code);
+            return (RawUser) query.uniqueResult();
+        }
     }
 
     @Override
@@ -54,7 +54,8 @@ public class RawUserDaoImpl implements RawUserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<RawUser> getRawUsersList() {
-        Session session = this.sessionFactory.getCurrentSession();
-        return (List<RawUser>) session.createQuery("from RawUser").list();
+        try (Session session = this.sessionFactory.openSession()) {
+            return (List<RawUser>) session.createQuery("from RawUser").list();
+        }
     }
 }

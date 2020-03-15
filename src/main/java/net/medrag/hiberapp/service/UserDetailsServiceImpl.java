@@ -1,22 +1,18 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service;
 
-import net.medrag.hiberapp.model.dao.UserDao;
-import net.medrag.hiberapp.model.domain.User;
+import net.medrag.hiberapp.dao.api.UserDao;
+import net.medrag.hiberapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
 
     private UserDao userDao;
 
@@ -26,9 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userDao.getUserByName(username);
+        if (user == null) throw new UsernameNotFoundException("There is no user with name " + username);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
         return new org.springframework.security.core.userdetails.User

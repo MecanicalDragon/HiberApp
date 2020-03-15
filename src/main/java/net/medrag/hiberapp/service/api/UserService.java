@@ -1,7 +1,7 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service.api;
 
-import net.medrag.hiberapp.model.domain.Role;
-import net.medrag.hiberapp.model.domain.User;
+import net.medrag.hiberapp.model.Role;
+import net.medrag.hiberapp.model.User;
 import java.util.List;
 
 public interface UserService {

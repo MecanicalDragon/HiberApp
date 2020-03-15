@@ -1,15 +1,13 @@
-package net.medrag.hiberapp.model.validator;
+package net.medrag.hiberapp.service;
 
-import net.medrag.hiberapp.model.domain.RawUser;
-import net.medrag.hiberapp.model.service.UserService;
+import net.medrag.hiberapp.model.RawUser;
+import net.medrag.hiberapp.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-
-@Component
 public class UserValidator implements Validator {
 
     private UserService userService;

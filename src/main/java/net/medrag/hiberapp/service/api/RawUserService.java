@@ -1,6 +1,6 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service.api;
 
-import net.medrag.hiberapp.model.domain.RawUser;
+import net.medrag.hiberapp.model.RawUser;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("fail")
+@RequestMapping("/fail")
 public class FailController {
 
     private static Map<String, String> messages;

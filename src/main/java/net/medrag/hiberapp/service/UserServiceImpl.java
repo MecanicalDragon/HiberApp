@@ -1,8 +1,9 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service;
 
-import net.medrag.hiberapp.model.dao.UserDao;
-import net.medrag.hiberapp.model.domain.Role;
-import net.medrag.hiberapp.model.domain.User;
+import net.medrag.hiberapp.dao.api.UserDao;
+import net.medrag.hiberapp.model.Role;
+import net.medrag.hiberapp.model.User;
+import net.medrag.hiberapp.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private UserDao userDao;
 
@@ -36,25 +36,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
     public User getUserById(Long id) {
         return this.userDao.getUserById(id);
     }
 
     @Override
-    @Transactional
     public User getUserByEmail(String email) {
         return this.userDao.getUserByEmail(email);
     }
 
     @Override
-    @Transactional
     public User getUserByName(String username) {
         return this.userDao.getUserByName(username);
     }
 
     @Override
-    @Transactional
     public User getUserByNameAndPass(String username, String password) {
         return this.userDao.getUserByNameAndPass(username, password);
     }
@@ -66,7 +62,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    @Transactional
     public List<User> getUserList() {
         return this.userDao.getUserList();
     }

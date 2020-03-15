@@ -2,15 +2,17 @@ package net.medrag.hiberapp.controller.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("usr1")
-public class UserPageController1 {
+public class UserController {
 
-
-    @GetMapping
-    public String request(){
+    @GetMapping("/usr1")
+    public String request1(){
         return "user/userPage";
+    }
+
+    @GetMapping("/usr2")
+    public String request2(){
+        return "user/userPage2";
     }
 }

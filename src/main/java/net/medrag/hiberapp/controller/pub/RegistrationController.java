@@ -1,14 +1,13 @@
 package net.medrag.hiberapp.controller.pub;
 
-import net.medrag.hiberapp.model.domain.RawUser;
-import net.medrag.hiberapp.model.domain.Role;
-import net.medrag.hiberapp.model.domain.User;
-import net.medrag.hiberapp.model.service.MailService;
-import net.medrag.hiberapp.model.service.RawUserService;
-import net.medrag.hiberapp.model.service.SecurityService;
-import net.medrag.hiberapp.model.service.UserService;
-import net.medrag.hiberapp.model.validator.UserValidator;
-
+import net.medrag.hiberapp.model.RawUser;
+import net.medrag.hiberapp.model.Role;
+import net.medrag.hiberapp.model.User;
+import net.medrag.hiberapp.service.*;
+import net.medrag.hiberapp.service.api.MailService;
+import net.medrag.hiberapp.service.api.RawUserService;
+import net.medrag.hiberapp.service.api.SecurityService;
+import net.medrag.hiberapp.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,46 +17,26 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 
 @Controller
-@RequestMapping("register")
+@RequestMapping("/register")
 public class RegistrationController {
 
     private UserService userService;
-
     private RawUserService rawUserService;
-
     private SecurityService securityService;
-
     private UserValidator userValidator;
-
     private MailService mailService;
 
     @Autowired
-    public void setMailService(MailService mailService) {
+    public RegistrationController(UserService userService, RawUserService rawUserService, SecurityService securityService, UserValidator userValidator, MailService mailService) {
+        this.userService = userService;
+        this.rawUserService = rawUserService;
+        this.securityService = securityService;
+        this.userValidator = userValidator;
         this.mailService = mailService;
     }
 
-    @Autowired
-    public void setSecurityService(SecurityService securityService) {
-        this.securityService = securityService;
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    public void setUserValidator(UserValidator userValidator) {
-        this.userValidator = userValidator;
-    }
-
-    @Autowired
-    public void setRawUserService(RawUserService rawUserService) {
-        this.rawUserService = rawUserService;
-    }
-
-    @GetMapping()
-    public String register(Model model){
+    @GetMapping
+    public String register(Model model) {
         model.addAttribute("user", new RawUser());
         return "public/register";
     }
@@ -83,7 +62,7 @@ public class RegistrationController {
     }
 
     @GetMapping("confirm/{code}")
-    public String confirmEmail(@PathVariable String code){
+    public String confirmEmail(@PathVariable String code) {
 
         RawUser rawUser = rawUserService.getUserByCode(code);
         User user = new User();

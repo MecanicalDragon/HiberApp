@@ -20,11 +20,12 @@
                     username-parameter="username"
                     password-parameter="password"/>
 
+        <access-denied-handler error-page="/403"/>
         <logout logout-success-url="/success/logout"/>
     </http>
 
     <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref="userDetailsServiceImpl">
+        <authentication-provider user-service-ref="userDetailsService">
             <password-encoder ref="encoder"/>
         </authentication-provider>
     </authentication-manager>

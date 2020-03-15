@@ -1,4 +1,4 @@
-package net.medrag.hiberapp.model.domain;
+package net.medrag.hiberapp.model;
 
 public enum Role {
     ROLE_USER,

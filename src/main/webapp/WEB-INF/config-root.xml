@@ -41,9 +41,10 @@
     </bean>
 
     <!--Database configuration-->
-    <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
+        <property name="schema" value="${jdbc.schema}"/>
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
@@ -51,64 +52,87 @@
     <!-- Hibernate 5 SessionFactory Bean definition -->
     <bean id="hibernate5AnnotatedSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="annotatedClasses">
-            <list>
-                <value>net.medrag.hiberapp.model.domain.User</value>
-                <value>net.medrag.hiberapp.model.domain.RawUser</value>
-            </list>
-        </property>
+        <property name="packagesToScan" value="net.medrag.hiberapp.model"/>
+        <!--        <property name="annotatedClasses">-->
+        <!--            <list>-->
+        <!--                <value>net.medrag.hiberapp.model.User</value>-->
+        <!--                <value>net.medrag.hiberapp.model.RawUser</value>-->
+        <!--            </list>-->
+        <!--        </property>-->
         <property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
     </bean>
 
     <!--Other Beans-->
-    <context:component-scan base-package="net.medrag.hiberapp.model"/>
+    <!--    <context:component-scan base-package="net.medrag.hiberapp"/>-->
+
     <tx:annotation-driven/>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
 
     <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
         <constructor-arg name="strength" value="12"/>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
     </bean>
 
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames" value="classpath:validation"/>
     </bean>
 
-    <!--My App Beans-->
+    <!--    Flyway-->
 
-    <!--<bean id="userDao" class="net.medrag.hiberapp.model.dao.UserDaoImpl">-->
-        <!--<property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>-->
-    <!--</bean>-->
+    <bean id="flywayConfig" class="org.flywaydb.core.api.configuration.ClassicConfiguration">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="locations" value="database.postgre"/>
+        <property name="schemas" value="hiber_schema"/>
+    </bean>
 
-    <!--<bean id="userService" class="net.medrag.hiberapp.model.service.UserServiceImpl">-->
-        <!--<property name="userDao" ref="userDao"/>-->
-        <!--<property name="encoder" ref="encoder"/>-->
-    <!--</bean>-->
+    <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
+        <constructor-arg ref="flywayConfig"/>
+    </bean>
 
-    <!--<bean id="userDetailsService" class="net.medrag.hiberapp.model.service.UserDetailsServiceImpl">-->
-        <!--<property name="userDao" ref="userDao"/>-->
-    <!--</bean>-->
+    <!--    Repositories-->
 
-    <!--<bean id="securityService" class="net.medrag.hiberapp.model.service.SecurityServiceImpl">-->
-        <!--<property name="userDetailsService" ref="userDetailsService"/>-->
-        <!--<property name="authenticationManager" ref="authenticationManager"/>-->
-    <!--</bean>-->
+    <bean id="userDao" class="net.medrag.hiberapp.dao.UserDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
 
-    <!--<bean id="userValidator" class="net.medrag.hiberapp.model.validator.UserValidator">-->
-        <!--<property name="userService" ref="userService"/>-->
-    <!--</bean>-->
+    <bean id="rawUserDao" class="net.medrag.hiberapp.dao.RawUserDaoImpl">
+        <property name="sessionFactory" ref="hibernate5AnnotatedSessionFactory"/>
+    </bean>
 
-    <!--<bean id="mailService" class="net.medrag.hiberapp.model.service.MailServiceImpl">-->
-        <!--<property name="mailSender" ref="mailSender"/>-->
-        <!--<property name="encoder" ref="encoder"/>-->
-    <!--</bean>-->
+    <!--    Services-->
+
+    <bean id="userService" class="net.medrag.hiberapp.service.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+        <property name="encoder" ref="encoder"/>
+    </bean>
+
+    <bean id="rawUserService" class="net.medrag.hiberapp.service.RawUserServiceImpl">
+        <property name="rawUserDao" ref="rawUserDao"/>
+    </bean>
+
+    <bean id="userDetailsService" class="net.medrag.hiberapp.service.UserDetailsServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="userValidator" class="net.medrag.hiberapp.service.UserValidator">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="securityService" class="net.medrag.hiberapp.service.SecurityServiceImpl">
+        <property name="userDetailsService" ref="userDetailsService"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+
+    <bean id="mailService" class="net.medrag.hiberapp.service.MailServiceImpl">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="useEmail" value="${mail.use}"/>
+    </bean>
 
     <!--<mvc:resources mapping="/resources/**" location="/resources/"/>-->
     <!--<mvc:default-servlet-handler/>-->

@@ -1,4 +1,4 @@
-package net.medrag.hiberapp.model.service;
+package net.medrag.hiberapp.service.api;
 
 public interface SecurityService {
 
